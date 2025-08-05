@@ -17,12 +17,12 @@ const App = () => {
   const imagesPerPage = 18;
 
   return (
-    <>
-      <ImageList sx={{ height: "90vh" }} cols={3} rowHeight={150}>
+    <div style={{ margin: "0 auto" }}>
+      <ImageList cols={3} rowHeight={150}>
         {images
           .slice(imagesPerPage * page, imagesPerPage * (page + 1))
           .map((name) => {
-            const url = `http://10.0.0.171/images/seattle/${name}`;
+            const url = `https://rpi.aryang.dev/images/seattle/${name}`;
             return (
               <ImageListItem key={name}>
                 <a href={url} download>
@@ -46,7 +46,7 @@ const App = () => {
         onChange={handlePageChange}
         color="primary"
       />
-    </>
+    </div>
   );
 };
 
