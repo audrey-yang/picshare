@@ -22,13 +22,14 @@ const App = () => {
         {images
           .slice(imagesPerPage * page, imagesPerPage * (page + 1))
           .map((name) => {
-            const url = `https://rpi.aryang.dev/images/seattle/${name}`;
+            const previewUrl = `https://rpi.aryang.dev/images/seattle/preview_${name}`;
+            const fullUrl = `https://rpi.aryang.dev/images/seattle/${name}`;
             return (
               <ImageListItem key={name}>
-                <a href={url} download>
+                <a href={fullUrl} download>
                   <img
-                    srcSet={url}
-                    src={url}
+                    srcSet={previewUrl}
+                    src={previewUrl}
                     loading="lazy"
                     style={{
                       height: 150,
