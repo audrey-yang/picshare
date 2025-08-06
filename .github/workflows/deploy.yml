@@ -20,6 +20,10 @@ concurrency:
   group: 'pages'
   cancel-in-progress: true
 
+# Set global env variable
+env:
+  VITE_SECRET_CODE: ${{ secrets.VITE_SECRET_CODE }}
+
 jobs:
   # Single deploy job since we're just deploying
   deploy:
