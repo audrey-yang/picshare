@@ -1,69 +1,30 @@
-# React + TypeScript + Vite
+# picshare
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sharing pictures served up on a Raspberry Pi–a simple solution for short-term file sharing with friends.
 
-Currently, two official plugins are available:
+## Server
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Network
 
-## Expanding the ESLint configuration
+To get the server to the internet, here is what I did:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Set up an A record with my DNS provider
+1. Set up a cronjob for the [porkbun-ddns](https://github.com/luxeon/porkbun-ddns) script in order to keep the A record up-to-date
+1. Generated SSL files through my DNS provider and placed them on the Pi (at /etc/ssl)
+1. Port-forwarded port 443 through my router
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Nginx
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+At `/etc/nginx/sites-available`, replace the `default` file with [these contents](./server/default).
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Files
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+To reduce the time to display pictures, I generated smaller preview images and set up pagination.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Frontend
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+The project is generated from the Vite, React, and TypeScript template. To run, use `npm run dev`. The application will be running at [localhost:5173/picshare](http://localhost:5173/picshare).
+
+## Other notes
+
+Future improvements can be made especially with security. Please use with caution.

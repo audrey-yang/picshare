@@ -1,0 +1,21 @@
+limit_req_zone  $binary_remote_addr  zone=default:10m   rate=15r/s;
+
+server {
+    listen 443 ssl;
+    server_name server_name.REPLACE;
+    ssl_certificate /etc/ssl/certs/domain.cert.pem;
+    ssl_certificate_key /etc/ssl/private/private.key.pem;
+
+
+    root /var/www/html;  # Directory containing static files
+    index index.html index.htm;
+    
+    location / {
+        try_files $uri $uri/ =404;  # Serve 404 if file not found
+    }
+
+    location /images/ {
+	limit_req zone=default burst=20 nodelay;
+        root /var/www/picshare;
+    }
+}
